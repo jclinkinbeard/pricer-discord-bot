@@ -13,23 +13,19 @@ client.on('message', (message) => {
   const [command] = message.content.substr(1).split(' ')
 
   switch (command) {
-    case 'ping':
-      message.channel.send('PING PONG!')
-      message.delete()
-      break
     case 'price':
-      handlePriceRequest(message)
+      handlePriceRequest(command, message)
       break
     case 'pricenp':
-      handlePriceRequest(message, false)
+      handlePriceRequest(command, message, false)
       break
     default:
       message.channel.send(`Unknown command: ${command}`)
   }
 })
 
-function handlePriceRequest(message, notify = true) {
-  const args = message.content.substr('!price'.length + 1)
+function handlePriceRequest(command, message, notify = true) {
+  const args = message.content.substr(command.length + 1)
   const roles = message.guild.roles.cache
   const pricerRole = roles.find((r) => r.name === 'Pricer')
   const pitRole = roles.find((r) => r.name === 'Pricer in Training')
