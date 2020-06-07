@@ -36,7 +36,7 @@ function handlePriceRequest(message, notify = true) {
   let msg = ''
   msg += `Price request! <@${message.author.id}> wants to know `
   msg += `the price of **${args}** for Nintendo Switch.`
-  if (notify) msg += `<@&${pricerRole.id}> <@&${pitRole.id}>`
+  if (notify) msg += ` <@&${pricerRole.id}> <@&${pitRole.id}>`
   message.channel.send(msg)
 }
 
