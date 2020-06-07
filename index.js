@@ -4,6 +4,7 @@ const client = new Discord.Client()
 
 client.once('ready', async () => {
   console.log('pricebot is ready!')
+  client.channels.cache.forEach((c) => c.send('pricebot is ready!'))
 })
 
 const prefix = '!'
