@@ -1,10 +1,16 @@
 require('dotenv').config()
 const Discord = require('discord.js')
 const client = new Discord.Client()
+const pkg = require('./package.json')
 
+// on startup, announce ourselves in each text channel
 client.once('ready', async () => {
-  console.log('pricebot is ready!')
-  client.channels.cache.forEach((c) => c.send('pricebot is ready!'))
+  const msg = `${pkg.name} v${pkg.version} connected and ready!`
+  client.guilds.cache.forEach((g) => {
+    g.channels.cache.forEach((c) => {
+      if (c.type === 'text') c.send(msg)
+    })
+  })
 })
 
 const prefix = '!'
