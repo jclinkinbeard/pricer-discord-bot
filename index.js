@@ -6,6 +6,7 @@ const { COMMANDS } = require('./constants')
 
 const prefix = '!'
 const price = require('./commands/price')
+const mute = require('./commands/mute')
 
 // on startup, announce ourselves in each text channel
 client.once('ready', async () => {
@@ -34,6 +35,9 @@ client.on('message', (message) => {
     case COMMANDS.PRICE:
     case COMMANDS.PRICENP:
       reply = price(message, command, request)
+      break
+    case COMMANDS.MUTE:
+      reply = mute(message, command, request)
       break
     default:
       reply = `Unknown command: ${command}`
