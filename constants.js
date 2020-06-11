@@ -1,5 +1,6 @@
 exports.COMMANDS = {
   MUTE: 'mute',
+  UNMUTE: 'unmute',
   PRICE: 'price',
   PRICENP: 'pricenp',
 }

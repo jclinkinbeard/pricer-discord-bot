@@ -1,4 +1,4 @@
-const { ROLES } = require('../constants')
+const { ROLES, COMMANDS } = require('../constants')
 const { findRoleByName } = require('../utils')
 
 const adminRoleNames = [
@@ -27,6 +27,7 @@ module.exports = function (message, command, request) {
       return adminRoleNames.includes(r.name)
     })
   const isMuteeOwner = findRoleByName(mutee.roles.cache, ROLES.OWNER)
+  const mutedRole = findRoleByName(guildRoles, ROLES.MUTED)
 
   let msg = ''
   if (isMuterAdmin) {
@@ -34,8 +35,13 @@ module.exports = function (message, command, request) {
     if (isMuteeOwner) return snarks[Math.round(Math.random() * snarks.length)]
     if (isMuteeAdmin) return "Haha, nice try. (You can't mute a muter.)"
 
-    mutee.roles.add(findRoleByName(guildRoles, ROLES.MUTED))
-    msg += `${mutee} was muted by <@${message.author.id}>`
+    if (command === COMMANDS.UNMUTE) {
+      mutee.roles.remove(mutedRole)
+    } else {
+      mutee.roles.add(mutedRole)
+    }
+
+    msg += `${mutee} was ${command}d by <@${message.author.id}>`
   } else {
     msg += `<@${message.author.id}> is not allowed to mute other users`
   }

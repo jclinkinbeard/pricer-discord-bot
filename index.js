@@ -28,6 +28,7 @@ client.on('message', (message) => {
       reply = price(message, command, request)
       break
     case COMMANDS.MUTE:
+    case COMMANDS.UNMUTE:
       reply = mute(message, command, request)
       break
     default:
