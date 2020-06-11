@@ -10,15 +10,20 @@ const adminRoleNames = [
 
 module.exports = function (message, command, request) {
   const guildRoles = message.guild.roles.cache
-  const isAdmin = message.member.roles.cache.some((r) => {
+  const isMuterAdmin = message.member.roles.cache.some((r) => {
     return adminRoleNames.includes(r.name)
   })
   const mutee = message.mentions.members.first()
+  const isMuteeAdmin =
+    mutee &&
+    mutee.roles.cache.some((r) => {
+      return adminRoleNames.includes(r.name)
+    })
 
   let msg = ''
-  if (isAdmin) {
+  if (isMuterAdmin) {
     if (!mutee) return 'Mute who?!'
-    if (findRoleByName(mutee.roles.cache, ROLES.OWNER)) return 'Haha, nice try.'
+    if (isMuteeAdmin) return "Haha, nice try. (You can't mute a muter.)"
 
     mutee.roles.add(findRoleByName(guildRoles, ROLES.MUTED))
     msg += `${mutee} was muted by <@${message.author.id}>`
