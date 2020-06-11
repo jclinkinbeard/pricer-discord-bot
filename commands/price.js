@@ -1,13 +1,10 @@
 const { COMMANDS, ROLES } = require('../constants')
-
-function findRoleIdByName(roles, roleName) {
-  return roles.find((r) => r.name === roleName).id
-}
+const { findRoleByName } = require('../utils')
 
 module.exports = function (message, command, request) {
   const roles = message.guild.roles.cache
-  const pricerRoleId = findRoleIdByName(roles, ROLES.PRICER)
-  const pitRoleId = findRoleIdByName(roles, ROLES.PRICER_IN_TRAINING)
+  const pricerRoleId = findRoleByName(roles, ROLES.PRICER).id
+  const pitRoleId = findRoleByName(roles, ROLES.PRICER_IN_TRAINING).id
 
   let msg = ''
   msg += `Price request! <@${message.author.id}> wants to know `
