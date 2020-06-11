@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "LOCAL=true nodemon index.js"
+  },
   "dependencies": {
     "bufferutil": "^4.0.1",
     "discord.js": "^12.2.0",

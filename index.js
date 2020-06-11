@@ -1,7 +1,6 @@
 require('dotenv').config()
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const pkg = require('./package.json')
 const { COMMANDS } = require('./constants')
 
 const prefix = '!'
@@ -11,6 +10,8 @@ const mute = require('./commands/mute')
 // each time a message is sent
 client.on('message', (message) => {
   if (!message.content.startsWith(prefix)) return
+  if (process.env.LOCAL && message.guild.name !== 'Lab Assistant Lab') return
+  if (!process.env.LOCAL && message.guild.name === 'Lab Assistant Lab') return
 
   // parse command name and everythingthat follows into
   // command and request, respectively
