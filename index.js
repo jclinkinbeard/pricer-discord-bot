@@ -8,16 +8,6 @@ const prefix = '!'
 const price = require('./commands/price')
 const mute = require('./commands/mute')
 
-// on startup, announce ourselves in each text channel
-client.once('ready', async () => {
-  const msg = `${pkg.name} v${pkg.version} connected and ready!`
-  client.guilds.cache.forEach((g) => {
-    g.channels.cache.forEach((c) => {
-      if (c.type === 'text') c.send(msg)
-    })
-  })
-})
-
 // each time a message is sent
 client.on('message', (message) => {
   if (!message.content.startsWith(prefix)) return
