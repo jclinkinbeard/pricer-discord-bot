@@ -5,6 +5,7 @@ const { COMMANDS } = require('./constants')
 
 const prefix = '!'
 const price = require('./commands/price')
+const middleman = require('./commands/middleman')
 const mute = require('./commands/mute')
 
 // each time a message is sent
@@ -26,6 +27,9 @@ client.on('message', (message) => {
     case COMMANDS.PRICE:
     case COMMANDS.PRICENP:
       reply = price(message, command, request)
+      break
+    case COMMANDS.MIDDLEMAN:
+      reply = middleman(message)
       break
     case COMMANDS.MUTE:
     case COMMANDS.UNMUTE:

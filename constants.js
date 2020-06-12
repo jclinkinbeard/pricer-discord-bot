@@ -1,8 +1,9 @@
 exports.COMMANDS = {
+  MIDDLEMAN: 'middleman',
   MUTE: 'mute',
-  UNMUTE: 'unmute',
   PRICE: 'price',
   PRICENP: 'pricenp',
+  UNMUTE: 'unmute',
 }
 
 exports.ROLES = {
