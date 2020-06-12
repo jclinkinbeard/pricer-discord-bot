@@ -1,5 +1,4 @@
 const { ROLES, COMMANDS } = require('../constants')
-const { findRoleByName } = require('../utils')
 
 const adminRoleNames = [ROLES.ADMINISTRATOR, ROLES.OWNER]
 
