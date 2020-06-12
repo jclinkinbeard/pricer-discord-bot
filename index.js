@@ -4,6 +4,7 @@ const client = new Discord.Client()
 const { COMMANDS } = require('./constants')
 
 const prefix = '!'
+const ban = require('./commands/ban')
 const price = require('./commands/price')
 const middleman = require('./commands/middleman')
 const mute = require('./commands/mute')
@@ -24,6 +25,10 @@ client.on('message', (message) => {
   // every command handler should have the same signature
   // accepting `message`, `command`, and `request` arguments
   switch (command) {
+    case COMMANDS.BAN:
+    case COMMANDS.UNBAN:
+      reply = ban(message, command, request)
+      break
     case COMMANDS.PRICE:
     case COMMANDS.PRICENP:
       reply = price(message, command, request)

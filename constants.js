@@ -1,8 +1,10 @@
 exports.COMMANDS = {
+  BAN: 'ban',
   MIDDLEMAN: 'middleman',
   MUTE: 'mute',
   PRICE: 'price',
   PRICENP: 'pricenp',
+  UNBAN: 'unban',
   UNMUTE: 'unmute',
 }
 
