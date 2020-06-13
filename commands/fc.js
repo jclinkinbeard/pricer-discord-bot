@@ -3,7 +3,7 @@ const { fcStorage } = require('../storage')
 
 module.exports = async function (message, command, request) {
   const authorId = message.author.id
-  const mentioned = message.mentions?.members?.first()
+  const mentioned = message.mentions && message.mentions.members.first()
   let msg
 
   if (command === COMMANDS.SETFC) {
