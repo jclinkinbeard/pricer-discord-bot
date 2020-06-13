@@ -28,6 +28,9 @@ module.exports = function (message, command, request) {
     })
   const isMuteeOwner = findRoleByName(mutee.roles.cache, ROLES.OWNER)
   const mutedRole = findRoleByName(guildRoles, ROLES.MUTED)
+  const logChannel = message.guild.channels.cache.find((c) => {
+    if (c.name === 'user-commands') return c
+  })
 
   let msg = ''
   if (isMuterAdmin) {
@@ -42,6 +45,7 @@ module.exports = function (message, command, request) {
     }
 
     msg += `${mutee} was ${command}d by <@${message.author.id}>`
+    logChannel.send(msg)
   } else {
     msg += `<@${message.author.id}> is not allowed to mute other users`
   }

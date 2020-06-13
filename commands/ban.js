@@ -28,5 +28,11 @@ module.exports = function (message, command, request) {
     msg += `${request} is back!`
   }
 
+  const logChannel = message.guild.channels.cache.find((c) => {
+    if (c.name === 'user-commands') return c
+  })
+  const log = msg + ` thanks to ${message.member.id}`
+  logChannel.send(log)
+
   return msg
 }
