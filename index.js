@@ -6,6 +6,7 @@ const { COMMANDS } = require('./constants')
 
 const prefix = '!'
 const ban = require('./commands/ban')
+const fc = require('./commands/fc')
 const price = require('./commands/price')
 const middleman = require('./commands/middleman')
 const mute = require('./commands/mute')
@@ -41,6 +42,11 @@ client.on('message', (message) => {
     case COMMANDS.UNBAN:
       reply = ban(message, command, request)
       break
+    case COMMANDS.FC:
+    case COMMANDS.SETFC:
+      fc(message, command, request)
+      // fc is async so we bail here
+      return
     case COMMANDS.PRICE:
     case COMMANDS.PRICENP:
       reply = price(message, command, request)
