@@ -10,6 +10,7 @@ const fc = require('./commands/fc')
 const price = require('./commands/price')
 const middleman = require('./commands/middleman')
 const mute = require('./commands/mute')
+const rep = require('./commands/rep')
 
 // on startup, announce ourselves in each text channel
 client.once('ready', async () => {
@@ -38,6 +39,12 @@ client.on('message', (message) => {
   // every command handler should have the same signature
   // accepting `message`, `command`, and `request` arguments
   switch (command) {
+    case COMMANDS.ADDREP:
+    case COMMANDS.BADREP:
+    case COMMANDS.REP:
+      rep(message, command, request)
+      // async so we bail
+      return
     case COMMANDS.BAN:
     case COMMANDS.UNBAN:
       reply = ban(message, command, request)
@@ -45,7 +52,7 @@ client.on('message', (message) => {
     case COMMANDS.FC:
     case COMMANDS.SETFC:
       fc(message, command, request)
-      // fc is async so we bail here
+      // async so we bail
       return
     case COMMANDS.PRICE:
     case COMMANDS.PRICENP:

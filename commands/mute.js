@@ -26,7 +26,6 @@ module.exports = function (message, command, request) {
     mutee.roles.cache.some((r) => {
       return adminRoleNames.includes(r.name)
     })
-  const isMuteeOwner = findRoleByName(mutee.roles.cache, ROLES.OWNER)
   const mutedRole = findRoleByName(guildRoles, ROLES.MUTED)
   const logChannel = message.guild.channels.cache.find((c) => {
     if (c.name === 'user-commands') return c
@@ -35,6 +34,7 @@ module.exports = function (message, command, request) {
   let msg = ''
   if (isMuterAdmin) {
     if (!mutee) return 'Mute who?!'
+    const isMuteeOwner = findRoleByName(mutee.roles.cache, ROLES.OWNER)
     if (isMuteeOwner) return snarks[Math.round(Math.random() * snarks.length)]
     if (isMuteeAdmin) return "Haha, nice try. (You can't mute a muter.)"
 

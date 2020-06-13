@@ -1,10 +1,13 @@
 exports.COMMANDS = {
+  ADDREP: 'addrep',
+  BADREP: 'badrep',
   BAN: 'ban',
   FC: 'fc',
   MIDDLEMAN: 'middleman',
   MUTE: 'mute',
   PRICE: 'price',
   PRICENP: 'pricenp',
+  REP: 'rep',
   SETFC: 'setfc',
   UNBAN: 'unban',
   UNMUTE: 'unmute',
