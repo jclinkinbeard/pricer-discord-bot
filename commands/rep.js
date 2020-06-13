@@ -13,6 +13,9 @@ const addRep = async function (message, command, request) {
   }
 
   const mentioned = message.mentions.members.first().id
+  if (author === mentioned) {
+    return 'Nice try, your mother would be so proud.'
+  }
   const newRep = {
     from: author,
     msg,
