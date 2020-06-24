@@ -42,6 +42,7 @@ client.on('message', (message) => {
     case COMMANDS.ADDREP:
     case COMMANDS.BADREP:
     case COMMANDS.REP:
+    case COMMANDS.TOPREP:
       rep(message, command, request)
       // async so we bail
       return

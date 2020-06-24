@@ -9,6 +9,7 @@ exports.COMMANDS = {
   PRICENP: 'pricenp',
   REP: 'rep',
   SETFC: 'setfc',
+  TOPREP: 'toprep',
   UNBAN: 'unban',
   UNMUTE: 'unmute',
 }

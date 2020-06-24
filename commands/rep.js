@@ -1,3 +1,4 @@
+const { MongoClient } = require('mongodb')
 const { COMMANDS, ROLES } = require('../constants')
 const { repStorage } = require('../storage')
 const { findRoleByName } = require('../utils')
@@ -85,6 +86,31 @@ const rep = async function (message, command, request) {
   return msg
 }
 
+const topRep = async function (message, command, request) {
+  const client = await MongoClient.connect(process.env.MONGODB_URI)
+  const db = client.db(process.env.DATABASE_NAME)
+  const coll = db.collection('keyv')
+  const results = await coll.find({ key: { $regex: '^rep:' } }).toArray()
+  let leaders = []
+  for (let i = 0; i < results.length; i++) {
+    const entry = {
+      ...JSON.parse(results[i].value),
+      key: results[i].key,
+    }
+    leaders.push(entry)
+  }
+  leaders = leaders.sort((a, b) => {
+    return b.value.length - a.value.length
+  })
+  let msg = '**Leaderboard**\n\n'
+  leaders.slice(0, 10).forEach((leader, i) => {
+    const member = message.guild.members.cache.get(leader.key.substr('4'))
+    const id = member ? member.user.username : leader.key.substr('4')
+    msg += `${i + 1}. ${id} **[${leader.value.length}]**\n`
+  })
+  return msg
+}
+
 module.exports = async function (message, command, request) {
   const logChannel = message.guild.channels.cache.find((c) => {
     if (c.name === 'rep-logs') return c
@@ -102,6 +128,9 @@ module.exports = async function (message, command, request) {
       break
     case COMMANDS.REP:
       msg = await rep(message, command, request)
+      break
+    case COMMANDS.TOPREP:
+      msg = await topRep(message, command, request)
       break
   }
 

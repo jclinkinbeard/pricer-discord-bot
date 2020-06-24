@@ -1,6 +1,6 @@
 {
   "name": "pricer-discord-bot",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -11,8 +11,8 @@
     "bufferutil": "^4.0.1",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
-    "erlpack": "discordapp/erlpack",
     "keyv": "^4.0.1",
+    "mongodb": "^3.5.9",
     "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
