@@ -70,7 +70,8 @@ const rep = async function (message, command, request) {
 
   let p = []
   let n = []
-  rep.forEach((r) => {
+  const list = rep.slice(0, 5)
+  list.forEach((r) => {
     if (r.neg) n.push(r)
     if (!r.neg) p.push(r)
   })
@@ -78,7 +79,7 @@ const rep = async function (message, command, request) {
   msg += `<@${user}> Rep Report\n`
   msg += `**Positive Rep: ${p.length}**\n`
   msg += `**Negative Rep: ${n.length}**\n`
-  rep.forEach((r) => {
+  list.forEach((r) => {
     if (!r.msg) return
     msg += r.neg ? ' - ' : ' + '
     msg += ` "${r.msg}"\n`
