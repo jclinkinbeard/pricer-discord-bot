@@ -70,7 +70,7 @@ const rep = async function (message, command, request) {
 
   let p = []
   let n = []
-  const list = rep.slice(0, 5)
+  const list = rep.slice(-5)
   list.forEach((r) => {
     if (r.neg) n.push(r)
     if (!r.neg) p.push(r)
