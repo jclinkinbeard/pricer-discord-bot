@@ -1,8 +1,9 @@
 require('dotenv').config()
 const Discord = require('discord.js')
-const client = new Discord.Client()
+const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] })
 const pkg = require('./package.json')
-const { COMMANDS } = require('./constants')
+const { COMMANDS, ROLES } = require('./constants')
+const { repStorage } = require('./storage')
 
 const prefix = '!'
 const ban = require('./commands/ban')
@@ -21,6 +22,43 @@ client.once('ready', async () => {
       if (c.name === 'bot-operations') c.send(msg)
     })
   })
+})
+
+client.on('messageReactionAdd', async (reaction, user) => {
+  if (reaction.partial) {
+    try {
+      await reaction.fetch()
+    } catch (error) {
+      reaction.message.channel.send('Could not record reaction.')
+      return
+    }
+  }
+
+  const { message } = reaction
+  const { channel } = message
+
+  if (channel.name !== 'rep-logs') return
+  if (!message.content.includes('gave rep to')) return
+  if (!reaction.emoji.name === '👎') return
+
+  const reactor = message.guild.members.cache.get(user.id)
+  const isReactorOwner = reactor.roles.cache.some((r) => {
+    return r.name === ROLES.OWNER
+  })
+  if (isReactorOwner) {
+    const { content } = message
+    const words = content.split(' ')
+    const repOf = message.mentions.members.last()
+    const msg = words[words.indexOf('because') + 1]
+    const rep = await repStorage.get(repOf.id)
+    const filtered = rep.filter((r) => r.msg !== msg)
+    const saved = await repStorage.set(repOf.id, filtered)
+    if (saved) {
+      channel.send('Rep entry removed.')
+    } else {
+      channel.send('Rep could not be edited.')
+    }
+  }
 })
 
 // each time a message is sent
