@@ -51,9 +51,9 @@ client.on('messageReactionAdd', async (reaction, user) => {
     const repOf = message.mentions.members.last()
     const msg = words[words.indexOf('because') + 1]
     const rep = await repStorage.get(repOf.id)
-    const filtered = rep.filter((r) => r.msg !== msg)
+    const filtered = rep.filter((r) => `_${r.msg}_` !== msg)
     const saved = await repStorage.set(repOf.id, filtered)
-    if (saved) {
+    if (saved && filtered.length < rep.length) {
       channel.send('Rep entry removed.')
     } else {
       channel.send('Rep could not be edited.')
