@@ -35,29 +35,25 @@ client.on('messageReactionAdd', async (reaction, user) => {
   }
 
   const { message } = reaction
-  const { channel } = message
+  const { channel, content } = message
 
-  if (channel.name !== 'rep-logs') return
-  if (!message.content.includes('gave rep to')) return
+  if (!content.includes('!addrep') && !content.includes('!badrep')) return
   if (!reaction.emoji.name === '👎') return
 
   const reactor = message.guild.members.cache.get(user.id)
   const isReactorOwner = reactor.roles.cache.some((r) => {
     return r.name === ROLES.OWNER
   })
-  if (isReactorOwner) {
-    const { content } = message
-    const words = content.split(' ')
-    const repOf = message.mentions.members.last()
-    const msg = words[words.indexOf('because') + 1]
-    const rep = await repStorage.get(repOf.id)
-    const filtered = rep.filter((r) => `_${r.msg}_` !== msg)
-    const saved = await repStorage.set(repOf.id, filtered)
-    if (saved && filtered.length < rep.length) {
-      channel.send('Rep entry removed.')
-    } else {
-      channel.send('Rep could not be edited.')
-    }
+  if (!isReactorOwner) return
+
+  const repOf = message.mentions.members.first()
+  const rep = await repStorage.get(repOf.id)
+  const filtered = rep.filter((r) => r.messageId !== message.id)
+  const saved = await repStorage.set(repOf.id, filtered)
+  if (saved && filtered.length + 1 === rep.length) {
+    channel.send('Rep entry removed.')
+  } else {
+    channel.send('Rep could not be edited.')
   }
 })
 

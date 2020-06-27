@@ -21,6 +21,7 @@ const addRep = async function (message, command, request) {
     from: author,
     msg,
     at: Date.now(),
+    messageId: message.id,
   }
   const rep = (await repStorage.get(mentioned)) || []
   rep.push(newRep)
@@ -46,6 +47,7 @@ const badRep = async function (message, command, request) {
     msg: request.substr(request.indexOf(' ') + 1), // strip the mention
     at: Date.now(),
     neg: true,
+    messageId: message.id,
   }
   const rep = (await repStorage.get(mentioned)) || []
   rep.push(newRep)
