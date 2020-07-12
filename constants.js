@@ -16,6 +16,7 @@ exports.COMMANDS = {
 
 exports.ROLES = {
   ADMINISTRATOR: 'Administrator',
+  HELPER: 'Helper',
   MIDDLEMAN: 'Middleman',
   MODERATOR: 'Moderator',
   MUTED: 'Muted',

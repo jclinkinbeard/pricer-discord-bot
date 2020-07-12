@@ -3,9 +3,9 @@ const { findRoleByName } = require('../utils')
 
 const adminRoleNames = [
   ROLES.ADMINISTRATOR,
+  ROLES.HELPER,
   ROLES.MODERATOR,
   ROLES.OWNER,
-  ROLES.PRICER,
 ]
 
 const snarks = [
