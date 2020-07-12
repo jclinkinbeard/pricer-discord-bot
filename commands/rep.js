@@ -28,7 +28,7 @@ const addRep = async function (message, command, request) {
   const saved = await repStorage.set(mentioned, rep)
   if (saved) {
     const reason = msg || 'No reason given'
-    return `<@${author}> gave rep to <@${mentioned}> because _${reason}_`
+    return `<@${author}> gave rep to <@${mentioned}> because "_${reason}_"`
   } else {
     return 'Could not save rep'
   }
@@ -54,7 +54,7 @@ const badRep = async function (message, command, request) {
   const saved = await repStorage.set(mentioned, rep)
   if (saved) {
     let msg = `<@${author}> gave **bad** rep `
-    msg += `to <@${mentioned}> because _${newRep.msg}_\n`
+    msg += `to <@${mentioned}> because "_${newRep.msg}_"\n`
     msg += `Check it out <@&${adminRoleId}>`
     return msg
   } else {

@@ -37,8 +37,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
   const { message } = reaction
   const { channel, content } = message
 
-  if (!content.includes('!addrep') && !content.includes('!badrep')) return
-  if (!reaction.emoji.name === '👎') return
+  if (channel.name !== 'rep-logs' || reaction.emoji.name !== '👎') return
 
   const reactor = message.guild.members.cache.get(user.id)
   const isReactorOwner = reactor.roles.cache.some((r) => {
@@ -46,9 +45,10 @@ client.on('messageReactionAdd', async (reaction, user) => {
   })
   if (!isReactorOwner) return
 
-  const repOf = message.mentions.members.first()
+  const repOf = message.mentions.members.array()[1]
   const rep = await repStorage.get(repOf.id)
-  const filtered = rep.filter((r) => r.messageId !== message.id)
+  const repMsg = content.split('"')[1]
+  const filtered = rep.filter((r) => `_${r.msg}_` !== repMsg)
   const saved = await repStorage.set(repOf.id, filtered)
   if (saved && filtered.length + 1 === rep.length) {
     channel.send('Rep entry removed.')
