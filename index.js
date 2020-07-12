@@ -63,7 +63,7 @@ client.on('message', (message) => {
   if (process.env.LOCAL && message.guild.name !== 'Lab Assistant Lab') return
   if (!process.env.LOCAL && message.guild.name === 'Lab Assistant Lab') return
 
-  // parse command name and everythingthat follows into
+  // parse command name and everything that follows into
   // command and request, respectively
   const [command, ...msg] = message.content.substr(1).split(' ')
   const request = msg.join(' ').trim()

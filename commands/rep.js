@@ -8,9 +8,9 @@ const addRep = async function (message, command, request) {
   const author = message.author.id
   if (!message.mentions.members.size) return 'Add rep to who?'
 
-  let msg = ''
-  if (request.indexOf(' ') >= 0) {
-    msg = request.substr(request.indexOf(' ') + 1) // strip the mention
+  const [_, ...msg] = request.split(' ')
+  if (!msg.length) {
+    return 'Rep can only be given for a reason.'
   }
 
   const mentioned = message.mentions.members.first().id
@@ -27,8 +27,7 @@ const addRep = async function (message, command, request) {
   rep.push(newRep)
   const saved = await repStorage.set(mentioned, rep)
   if (saved) {
-    const reason = msg || 'No reason given'
-    return `<@${author}> gave rep to <@${mentioned}> because "_${reason}_"`
+    return `<@${author}> gave rep to <@${mentioned}> because "_${msg}_"`
   } else {
     return 'Could not save rep'
   }
@@ -38,13 +37,18 @@ const badRep = async function (message, command, request) {
   const author = message.author.id
   if (!message.mentions.members.size) return 'Rip whose rep?'
 
+  const [_, ...msg] = request.split(' ')
+  if (!msg.length) {
+    return 'Rep can only be given for a reason.'
+  }
+
   const roles = message.guild.roles.cache
   const adminRoleId = findRoleByName(roles, ROLES.ADMINISTRATOR).id
 
   const mentioned = message.mentions.members.first().id
   const newRep = {
     from: author,
-    msg: request.substr(request.indexOf(' ') + 1), // strip the mention
+    msg: msg.join(' '),
     at: Date.now(),
     neg: true,
     messageId: message.id,
