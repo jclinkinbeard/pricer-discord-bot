@@ -19,7 +19,7 @@ const addRep = async function (message, command, request) {
   }
   const newRep = {
     from: author,
-    msg,
+    msg: msg.join(' '),
     at: Date.now(),
     messageId: message.id,
   }
@@ -27,7 +27,7 @@ const addRep = async function (message, command, request) {
   rep.push(newRep)
   const saved = await repStorage.set(mentioned, rep)
   if (saved) {
-    return `<@${author}> gave rep to <@${mentioned}> because "_${msg}_"`
+    return `<@${author}> gave rep to <@${mentioned}> because "_${newRep.msg}_"`
   } else {
     return 'Could not save rep'
   }
