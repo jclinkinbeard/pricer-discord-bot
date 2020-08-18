@@ -13,6 +13,13 @@ module.exports = function (message, command, request) {
   msg += `Price request! <@${message.author.id}> wants to know `
   msg += `the price of **${request}** for Nintendo Switch.`
 
+  if (message.channel.name !== 'trading-chat') {
+    const channelId = message.guild.channels.cache.find((c) => {
+      if (c.name === 'trading-chat') return c.id
+    })
+    return `This command can only be used in ${channelId}`
+  }
+
   logChannel.send(msg)
 
   if (command === COMMANDS.PRICE) {

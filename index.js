@@ -91,15 +91,9 @@ client.on('message', (message) => {
       return
     case COMMANDS.PRICE:
     case COMMANDS.PRICENP:
-      if (message.channel !== 'trading-chat') {
-        return
-      }
       reply = price(message, command, request)
       break
     case COMMANDS.MIDDLEMAN:
-      if (message.channel !== 'middleman-call') {
-        return
-      }
       reply = middleman(message)
       break
     case COMMANDS.MUTE:
