@@ -101,7 +101,7 @@ client.on('message', (message) => {
       reply = mute(message, command, request)
       break
     default:
-      reply = `Unknown command: ${command}`
+      return
   }
 
   message.channel.send(reply)
