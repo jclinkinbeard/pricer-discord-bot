@@ -3,7 +3,8 @@ const Discord = require('discord.js')
 const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] })
 const pkg = require('./package.json')
 const { COMMANDS, ROLES } = require('./constants')
-const { repStorage } = require('./storage')
+const { muteStorage, repStorage } = require('./storage')
+const { findRoleByName } = require('./utils')
 
 const prefix = '!'
 const ban = require('./commands/ban')
@@ -13,13 +14,37 @@ const middleman = require('./commands/middleman')
 const mute = require('./commands/mute')
 const rep = require('./commands/rep')
 
+const unmute = async () => {
+  client.guilds.cache.forEach((g) => {
+    const online = g.members.cache.filter((m) => m.presence.status === 'online')
+    const muted = online.filter((m) => {
+      const roleNames = Array.from(
+        m.roles.cache.mapValues((r) => r.name).values(),
+      )
+      return roleNames.includes(ROLES.MUTED)
+    })
+    if (muted.size) {
+      const guildRoles = g.roles.cache
+      muted.forEach(async (m) => {
+        const muteRecord = await muteStorage.get(m.id)
+        if (!muteRecord) {
+          m.roles.remove(findRoleByName(guildRoles, ROLES.MUTED))
+        }
+      })
+    }
+    console.log(`${g.name}: ${online.size} online, ${muted.size} muted`)
+  })
+}
+
 // on startup, announce ourselves in each text channel
 client.once('ready', async () => {
+  setInterval(unmute, 1000 * 30)
+
   if (process.env.LOCAL) return
-  const msg = `${pkg.name} v${pkg.version} connected and ready!`
   client.guilds.cache.forEach((g) => {
     g.channels.cache.forEach((c) => {
-      if (c.name === 'bot-operations') c.send(msg)
+      if (c.name !== 'bot-operations') return
+      c.send(`${pkg.name} v${pkg.version} connected and ready!`)
     })
   })
 })
@@ -98,8 +123,8 @@ client.on('message', (message) => {
       break
     case COMMANDS.MUTE:
     case COMMANDS.UNMUTE:
-      reply = mute(message, command, request)
-      break
+      mute(message, command, request)
+      return
     default:
       return
   }

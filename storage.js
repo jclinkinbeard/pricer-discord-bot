@@ -8,3 +8,4 @@ exports.fcStorage.on('error', (err) => {
   console.error('Keyv connection error:', err)
 })
 exports.repStorage = new Keyv(MONGODB_URI, { namespace: `${env}rep` })
+exports.muteStorage = new Keyv(MONGODB_URI, { namespace: `${env}mute` })
