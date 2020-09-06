@@ -36,10 +36,11 @@ module.exports = async function (message, command, request) {
   let duration
   let reason
   if (isMuterAdmin) {
-    if (!mutee) return 'Mute who?!'
+    if (!mutee) msg = 'Mute who?!'
     const isMuteeOwner = findRoleByName(mutee.roles.cache, ROLES.OWNER)
-    if (isMuteeOwner) return snarks[Math.round(Math.random() * snarks.length)]
-    if (isMuteeAdmin) return "Haha, nice try. (You can't mute a muter.)"
+    if (isMuteeOwner) msg = snarks[Math.round(Math.random() * snarks.length)]
+    if (isMuteeAdmin) msg = "Haha, nice try. (You can't mute a muter.)"
+    if (msg !== '') return message.channel.send(msg)
 
     if (command === COMMANDS.UNMUTE) {
       await muteStorage.delete(mutee.id)
@@ -82,7 +83,7 @@ module.exports = async function (message, command, request) {
     if (command === COMMANDS.UNMUTE) {
       msg += `${mutee} was ${command}d by <@${message.author.id}>`
     } else {
-      msg += `${mutee} was muted by <@${message.author.id}> for ${duration} for ${reason}`
+      msg += `${mutee} was muted by <@${message.author.id}> for \`${duration}\` for ${reason}`
     }
     logChannel.send(msg)
   } else {
