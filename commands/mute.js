@@ -46,7 +46,7 @@ module.exports = async function (message, command, request) {
       mutee.roles.remove(mutedRole)
     } else {
       const mention = `<@!${mutee.id}>`
-      const msg = request.substr(mention.length + 1).trim()
+      const msg = request.substr(mention.length).trim()
       duration = msg.substr(0, msg.indexOf(' '))
       if (!duration.length) {
         return message.channel.send('You must provide a duration and reason')

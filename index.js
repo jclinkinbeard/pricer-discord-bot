@@ -84,8 +84,8 @@ client.on('messageReactionAdd', async (reaction, user) => {
 // each time a message is sent
 client.on('message', (message) => {
   if (!message.content.startsWith(prefix)) return
-  if (process.env.LOCAL && message.guild.name !== 'Lab Assistant Lab') return
-  if (!process.env.LOCAL && message.guild.name === 'Lab Assistant Lab') return
+  // if (process.env.LOCAL && message.guild.name !== 'Lab Assistant Lab') return
+  // if (!process.env.LOCAL && message.guild.name === 'Lab Assistant Lab') return
 
   // parse command name and everything that follows into
   // command and request, respectively
