@@ -16,8 +16,7 @@ const rep = require('./commands/rep')
 
 const unmute = async () => {
   client.guilds.cache.forEach((g) => {
-    const online = g.members.cache.filter((m) => m.presence.status === 'online')
-    const muted = online.filter((m) => {
+    const muted = g.members.cache.filter((m) => {
       const roleNames = Array.from(
         m.roles.cache.mapValues((r) => r.name).values(),
       )
@@ -32,13 +31,13 @@ const unmute = async () => {
         }
       })
     }
-    console.log(`${g.name}: ${online.size} online, ${muted.size} muted`)
+    console.log(`${g.name}: ${muted.size} muted`)
   })
 }
 
 // on startup, announce ourselves in each text channel
 client.once('ready', async () => {
-  setInterval(unmute, 1000 * 30)
+  setInterval(unmute, 1000 * 10)
 
   if (process.env.LOCAL) return
   client.guilds.cache.forEach((g) => {

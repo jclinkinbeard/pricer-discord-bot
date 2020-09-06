@@ -33,7 +33,8 @@ module.exports = async function (message, command, request) {
   })
 
   let msg = ''
-  let muteReason
+  let duration
+  let reason
   if (isMuterAdmin) {
     if (!mutee) return 'Mute who?!'
     const isMuteeOwner = findRoleByName(mutee.roles.cache, ROLES.OWNER)
@@ -46,7 +47,7 @@ module.exports = async function (message, command, request) {
     } else {
       const mention = `<@!${mutee.id}>`
       const msg = request.substr(mention.length + 1).trim()
-      const duration = msg.substr(0, msg.indexOf(' '))
+      duration = msg.substr(0, msg.indexOf(' '))
       if (!duration.length) {
         return message.channel.send('You must provide a duration and reason')
       }
@@ -58,7 +59,7 @@ module.exports = async function (message, command, request) {
       if (isNaN(num)) {
         return message.channel.send('Could not parse number from duration')
       }
-      const reason = msg.substr(duration.length + 1)
+      reason = msg.substr(duration.length + 1)
       if (!reason.length) {
         return message.channel.send('You must provide a reason')
       }
@@ -74,12 +75,15 @@ module.exports = async function (message, command, request) {
           ms = 1e3 * 60 * 60 * 24
           break
       }
-      muteReason = reason
       await muteStorage.set(mutee.id, reason, ms * num)
       mutee.roles.add(mutedRole)
     }
 
-    msg += `${mutee} was ${command}d by <@${message.author.id}> for ${muteReason}`
+    if (command === COMMANDS.UNMUTE) {
+      msg += `${mutee} was ${command}d by <@${message.author.id}>`
+    } else {
+      msg += `${mutee} was muted by <@${message.author.id}> for ${duration} for ${reason}`
+    }
     logChannel.send(msg)
   } else {
     msg += `<@${message.author.id}> is not allowed to mute other users`
