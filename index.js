@@ -84,8 +84,8 @@ client.on('messageReactionAdd', async (reaction, user) => {
 // each time a message is sent
 client.on('message', (message) => {
   if (!message.content.startsWith(prefix)) return
-  // if (process.env.LOCAL && message.guild.name !== 'Lab Assistant Lab') return
-  // if (!process.env.LOCAL && message.guild.name === 'Lab Assistant Lab') return
+  if (process.env.LOCAL && message.guild.name !== 'Lab Assistant Lab') return
+  if (!process.env.LOCAL && message.guild.name === 'Lab Assistant Lab') return
 
   // parse command name and everything that follows into
   // command and request, respectively
@@ -113,10 +113,10 @@ client.on('message', (message) => {
       fc(message, command, request)
       // async so we bail
       return
-    case COMMANDS.PRICE:
-    case COMMANDS.PRICENP:
-      reply = price(message, command, request)
-      break
+    // case COMMANDS.PRICE:
+    // case COMMANDS.PRICENP:
+    //   reply = price(message, command, request)
+    //   break
     case COMMANDS.MIDDLEMAN:
       reply = middleman(message)
       break
