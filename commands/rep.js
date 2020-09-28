@@ -39,7 +39,7 @@ const badRep = async function (message, command, request) {
 
   const [_, ...msg] = request.split(' ')
   if (!msg.length) {
-    return 'Rep can only be given for a reason.'
+    return 'Reputation can only be given for a reason.'
   }
 
   const roles = message.guild.roles.cache
@@ -118,6 +118,14 @@ const topRep = async function (message, command, request) {
 }
 
 module.exports = async function (message, command, request) {
+
+if (message.channel.name !== 'reputation') {
+    const channelId = message.guild.channels.cache.find((c) => {
+      if (c.name === 'reputation') return c.id
+    })
+    return `This command can only be used in ${channelId}`
+  }
+
   const logChannel = message.guild.channels.cache.find((c) => {
     if (c.name === 'rep-logs') return c
   })
