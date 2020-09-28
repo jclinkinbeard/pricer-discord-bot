@@ -123,7 +123,7 @@ if (message.channel.name !== 'reputation') {
     const channelId = message.guild.channels.cache.find((c) => {
       if (c.name === 'reputation') return c.id
     })
-    return `This command can only be used in ${channelId}`
+    return  message.channel.send(`This command can only be used in ${channelId}`)
   }
 
   const logChannel = message.guild.channels.cache.find((c) => {
